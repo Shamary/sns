@@ -1,14 +1,14 @@
-package com.saw.sns.sms.model;
+package com.saw.sns.sms.model.vm;
 
 import lombok.*;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @Builder
-public class SMS {
+public class SmsVm {
+    private String id;
     private String to;
     private String from;
     private String message;
