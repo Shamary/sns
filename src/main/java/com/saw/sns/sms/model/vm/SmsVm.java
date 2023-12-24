@@ -9,8 +9,7 @@ import lombok.*;
 @Builder
 public class SmsVm {
     private String id;
-    private String to;
-    private String from;
+    private String[] to;
     private String message;
     private String status;
 }

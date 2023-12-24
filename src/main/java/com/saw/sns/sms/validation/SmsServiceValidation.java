@@ -18,13 +18,13 @@ public class SmsServiceValidation implements SmsService {
     SmsServiceImpl smsService;
 
     @Override
-    public SmsVm SendMessage(String message, String... to) throws ValidationErrorException, OperationFailedException {
-        List<String> errors = validate(message, to);
+    public SmsVm SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
+        List<String> errors = validate(smsVm.getMessage(), smsVm.getTo());
         if (errors.size() > 0)
         {
             throw new ValidationErrorException(errors);
         }
-        return smsService.SendMessage(message, to);
+        return smsService.SendMessage(smsVm);
     }
     private List<String> validate(String message, String... to) {
         List<String> errors = new ArrayList<>();
@@ -41,7 +41,7 @@ public class SmsServiceValidation implements SmsService {
             for (String phoneNumber : to) {
                 if (phoneNumber == null || phoneNumber.isEmpty()) {
                     errors.add("Cannot contain empty phone numbers.");
-                } else if (!phoneNumber.matches("\\d+")) {
+                } else if (!phoneNumber.matches("[\\d+]+")) {
                     errors.add("Phone number '" + phoneNumber + "' must contain only digits.");
                 }
             }

@@ -4,5 +4,13 @@ spring:
     baseline-on-migrate: true
     enabled: false
 
+logging:
+  level:
+    com:
+      saw:
+        sns:
+          sms:
+            web: DEBUG
+
 server:
   port: 12013

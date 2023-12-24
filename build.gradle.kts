@@ -23,15 +23,22 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	// implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.flywaydb:flyway-core")
+//	implementation(platform("software.amazon.awssdk:bom:2.21.1"))
+//	implementation("software.amazon.awssdk:sns")
+//	implementation("software.amazon.awssdk:sdk-bom")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+//	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	annotationProcessor("org.projectlombok:lombok")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	// https://mvnrepository.com/artifact/software.amazon.awssdk/sns
+	implementation("software.amazon.awssdk:sns:2.22.3")
+
 }
 
 tasks.withType<Test> {
