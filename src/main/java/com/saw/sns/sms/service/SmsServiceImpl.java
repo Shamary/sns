@@ -27,14 +27,17 @@ public class SmsServiceImpl implements SmsService {
                     .build();
 
             PublishResponse response = client.publish(request);
-            logger.info("======SMS RESPONSE " + response);
+            logger.debug("======SMS RESPONSE " + response);
 
             smsVm.setId(response.messageId());
+
+            client.close();
         }
-        catch (SnsException e) {
+        catch (Exception e) {
+            client.close();
             logger.error("======SMS ERROR " + e.getMessage());
+            throw new OperationFailedException("Sending SMS failed\n " + e.getMessage());
         }
-        client.close();
         return smsVm;
     }
 }
