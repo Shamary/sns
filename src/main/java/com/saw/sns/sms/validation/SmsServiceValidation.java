@@ -18,7 +18,7 @@ public class SmsServiceValidation implements SmsService {
     SmsServiceImpl smsService;
 
     @Override
-    public SmsVm SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
+    public String SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
         List<String> errors = validate(smsVm.getMessage(), smsVm.getTo());
         if (errors.size() > 0)
         {

@@ -20,7 +20,7 @@ public class SmsController implements SmsService {
     private SmsServiceValidation smsService;
     @Override
     @PostMapping("/sms")
-    public SmsVm SendMessage(@RequestBody SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
+    public String SendMessage(@RequestBody SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
         try {
             return smsService.SendMessage(smsVm);
         } catch(ValidationErrorException e) {

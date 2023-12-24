@@ -17,27 +17,27 @@ import software.amazon.awssdk.services.sns.model.SnsException;
 public class SmsServiceImpl implements SmsService {
     Logger logger = LoggerFactory.getLogger(SmsServiceImpl.class);
     @Override
-    public SmsVm SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
+    public String SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
         SnsClient client = SnsClient.builder().region(Region.US_EAST_1).build();
-        try
-        {
-            PublishRequest request = PublishRequest.builder()
-                    .message(smsVm.getMessage())
-                    .phoneNumber(smsVm.getTo()[0])
-                    .build();
+        for (String number : smsVm.getTo()) {
+            try
+            {
 
-            PublishResponse response = client.publish(request);
-            logger.debug("======SMS RESPONSE " + response);
+                PublishRequest request = PublishRequest.builder()
+                        .message(smsVm.getMessage())
+                        .phoneNumber(number)
+                        .build();
 
-            smsVm.setId(response.messageId());
-
-            client.close();
+                PublishResponse response = client.publish(request);
+                logger.debug("======SMS RESPONSE " + response);
+            }
+            catch (Exception e) {
+                client.close();
+                logger.error("======SMS ERROR " + e.getMessage());
+                throw new OperationFailedException("Sending SMS failed\n " + e.getMessage());
+            }
         }
-        catch (Exception e) {
-            client.close();
-            logger.error("======SMS ERROR " + e.getMessage());
-            throw new OperationFailedException("Sending SMS failed\n " + e.getMessage());
-        }
-        return smsVm;
+        client.close();
+        return "Message sent";
     }
 }

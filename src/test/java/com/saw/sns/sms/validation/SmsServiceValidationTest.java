@@ -38,17 +38,19 @@ class SmsServiceValidationTest extends SnsApplicationTests {
         smsVm.setTo(new String[]{"+18761234567"});
 
         // Specify the behavior of SendMessage in the mock
-        SmsVm smsVmResponse = SmsVm.builder()
-                .message("Hello")
-                .to(new String[]{"+18761234567"})
-                .id("76e51137-bd16-5c39-aef7-5f36dc074323")
-                .build();
+//        SmsVm smsVmResponse = SmsVm.builder()
+//                .message("Hello")
+//                .to(new String[]{"+18761234567"})
+//                .id("76e51137-bd16-5c39-aef7-5f36dc074323")
+//                .build();
 
-        when(smsServiceMock.SendMessage(any(SmsVm.class))).thenReturn(smsVmResponse);
+        String expectedResult = "Message sent";
 
-        SmsVm result = smsService.SendMessage(smsVm);
+        when(smsServiceMock.SendMessage(any(SmsVm.class))).thenReturn(expectedResult);
 
-        assertEquals(smsVmResponse, result);
+        String result = smsService.SendMessage(smsVm);
+
+        assertEquals(expectedResult, result);
     }
 
     @Test

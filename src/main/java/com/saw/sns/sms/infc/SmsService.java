@@ -6,5 +6,5 @@ import com.saw.sns.sms.model.vm.SmsVm;
 import org.springframework.web.client.HttpClientErrorException;
 
 public interface SmsService {
-    public SmsVm SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException;
+    public String SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException;
 }
