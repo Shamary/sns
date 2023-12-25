@@ -25,10 +25,7 @@ repositories {
 dependencies {
 	// implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.flywaydb:flyway-core")
-//	implementation(platform("software.amazon.awssdk:bom:2.21.1"))
-//	implementation("software.amazon.awssdk:sns")
-//	implementation("software.amazon.awssdk:sdk-bom")
+//	implementation("org.flywaydb:flyway-core")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 //	developmentOnly("org.springframework.boot:spring-boot-docker-compose")

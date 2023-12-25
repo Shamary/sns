@@ -1,8 +1,8 @@
-spring:
-  flyway:
-    baseline-version: 1
-    baseline-on-migrate: true
-    enabled: false
+# spring:
+#   flyway:
+#     baseline-version: 1
+#     baseline-on-migrate: true
+#     enabled: false
 
 logging:
   level:
