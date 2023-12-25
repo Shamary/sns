@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  sns:
+    build: .
+    ports:
+      - 12013:12013
+    env_file:
+      - ./.env
+    container_name: sns-ws
+      
