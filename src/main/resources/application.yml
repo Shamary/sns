@@ -12,5 +12,5 @@ logging:
           sms:
             web: DEBUG
 
-server:
-  port: 12013
+# server:
+#   port: 12013

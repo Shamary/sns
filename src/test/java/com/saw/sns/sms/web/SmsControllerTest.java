@@ -1,6 +1,7 @@
 package com.saw.sns.sms.web;
 
 import com.saw.sns.SnsApplicationTests;
+import com.saw.sns.common.SnsResponse;
 import com.saw.sns.exception.OperationFailedException;
 import com.saw.sns.exception.ValidationErrorException;
 import com.saw.sns.sms.model.vm.SmsVm;
@@ -36,11 +37,13 @@ class SmsControllerTest extends SnsApplicationTests {
         smsVm.setTo(new String[]{"+1234567890"});
         smsVm.setId("76e51137-bd16-5c39-aef7-5f36dc074323");
 
-        String expectedResult = "Message sent";
+        SnsResponse expectedResult = SnsResponse.builder()
+                .message("Message sent")
+                .build();;
 
         when(smsService.SendMessage(smsVm)).thenReturn(expectedResult);
 
-        String result = smsController.SendMessage(smsVm);
+        SnsResponse result = smsController.SendMessage(smsVm);
 
         assertEquals(expectedResult, result);
         verify(smsService, times(1)).SendMessage(smsVm);

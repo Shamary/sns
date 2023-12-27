@@ -1,5 +1,6 @@
 package com.saw.sns.sms.web;
 
+import com.saw.sns.common.SnsResponse;
 import com.saw.sns.exception.OperationFailedException;
 import com.saw.sns.exception.ValidationErrorException;
 import com.saw.sns.sms.infc.SmsService;
@@ -20,7 +21,7 @@ public class SmsController implements SmsService {
     private SmsServiceValidation smsService;
     @Override
     @PostMapping("/sms")
-    public String SendMessage(@RequestBody SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
+    public SnsResponse SendMessage(@RequestBody SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
         try {
             return smsService.SendMessage(smsVm);
         } catch(ValidationErrorException e) {

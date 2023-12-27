@@ -1,0 +1,48 @@
+plugins {
+    // Apply core plugins
+    id 'java'
+    // Apply Spring Boot and dependency management plugins
+    id("org.springframework.boot") version "3.2.1"
+    id("io.spring.dependency-management") version "1.1.4"
+}
+
+group = "com.saw"
+version = "1.0.0"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
+configurations {
+    compileOnly {
+        extendsFrom(configurations.annotationProcessor)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot dependencies
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    // implementation("org.springframework.boot:spring-boot-starter-data-jpa")  // Uncomment if needed
+    // implementation("org.flywaydb:flyway-core")                             // Uncomment if needed
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    // developmentOnly("org.springframework.boot:spring-boot-docker-compose")  // Uncomment if needed
+
+    // Lombok
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+
+    // AWS SDK for SNS
+    implementation("software.amazon.awssdk:sns:2.22.3")
+    implementation("com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.0.0-M2")
+
+    // Testing
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+test {
+    useJUnitPlatform()
+}
