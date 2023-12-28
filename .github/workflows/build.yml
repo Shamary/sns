@@ -9,8 +9,7 @@ on:
       - '**'
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,9 +28,26 @@ jobs:
     - name: Run tests
       run: ./gradlew test --no-daemon
 
+  build:
+    runs-on: ubuntu-latest
 
-    # - name: Build with Gradle
-    #   run: ./gradlew build -x test --no-daemon
+    needs: test  # Ensure the 'build' job completes before deploying
+
+    # if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy with SAM CLI
+        run: sam build --debug
 
   deploy:
     runs-on: ubuntu-latest
