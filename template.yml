@@ -9,6 +9,37 @@ Globals:
     Timeout: 30
 
 Resources:
+  SnsApiFunctionRole: # role to allow the lambda function to publish sns messages
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: SnsApiFunctionRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SNSPublishPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sns:Publish
+                Resource: '*'
+        - PolicyName: AWSLambdaBasicExecutionRole
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+
   SmsApiFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -22,10 +53,9 @@ Resources:
           Properties:
             Path: /api/sns/sms
             Method: POST
-      Policies:
-        - SNSPublishPolicy
       SnapStart:
         ApplyOn: PublishedVersions
+      Role: !GetAtt SnsApiFunctionRole.Arn
 
 Outputs:
   ApiURL:

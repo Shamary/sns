@@ -39,3 +39,5 @@ out/
 .env
 
 .aws-sam
+
+samconfig.toml

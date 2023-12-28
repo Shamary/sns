@@ -24,7 +24,7 @@ for serverless deployment to AWS.
 ### serverless deployment
 
 - In a terminal run ```sam build```
-- ```sam deploy```
+- ```sam deploy --guided --capabilities CAPABILITY_NAMED_IAM```
 
 ### local deployment
 - In a terminal run ```sam build```
