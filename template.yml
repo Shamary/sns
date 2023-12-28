@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Description: AWS SAM Template for a Java Spring Boot application
+
+Globals:
+  Function:
+    Runtime: java17
+    Timeout: 30
+
+Resources:
+  SnsApiFunctionRole: # role to allow the lambda function to publish sns messages
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: SnsApiFunctionRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SNSPublishPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sns:Publish
+                Resource: '*'
+        - PolicyName: AWSLambdaBasicExecutionRole
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+
+  SmsApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.saw.sns.handler.SmsLambdaHandler::handleRequest
+      Runtime: java17
+      CodeUri: .
+      AutoPublishAlias: production
+      Events:
+        ApiGatewayEvent:
+          Type: Api
+          Properties:
+            Path: /api/sns/sms
+            Method: POST
+      SnapStart:
+        ApplyOn: PublishedVersions
+      Role: !GetAtt SnsApiFunctionRole.Arn
+
+Outputs:
+  ApiURL:
+    Description: URL for the API endpoint
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

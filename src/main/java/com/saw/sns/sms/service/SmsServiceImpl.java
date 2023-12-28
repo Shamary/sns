@@ -1,5 +1,6 @@
 package com.saw.sns.sms.service;
 
+import com.saw.sns.common.SnsResponse;
 import com.saw.sns.exception.OperationFailedException;
 import com.saw.sns.exception.ValidationErrorException;
 import com.saw.sns.sms.infc.SmsService;
@@ -11,13 +12,12 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.PublishRequest;
 import software.amazon.awssdk.services.sns.model.PublishResponse;
-import software.amazon.awssdk.services.sns.model.SnsException;
 
 @Service
 public class SmsServiceImpl implements SmsService {
     Logger logger = LoggerFactory.getLogger(SmsServiceImpl.class);
     @Override
-    public String SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
+    public SnsResponse SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
         SnsClient client = SnsClient.builder().region(Region.US_EAST_1).build();
         for (String number : smsVm.getTo()) {
             try
@@ -38,6 +38,9 @@ public class SmsServiceImpl implements SmsService {
             }
         }
         client.close();
-        return "Message sent";
+
+        return SnsResponse.builder()
+                .message("Message sent")
+                .build();
     }
 }

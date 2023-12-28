@@ -1,5 +1,6 @@
 package com.saw.sns.sms.validation;
 
+import com.saw.sns.common.SnsResponse;
 import com.saw.sns.exception.OperationFailedException;
 import com.saw.sns.exception.ValidationErrorException;
 import com.saw.sns.sms.infc.SmsService;
@@ -18,7 +19,7 @@ public class SmsServiceValidation implements SmsService {
     SmsServiceImpl smsService;
 
     @Override
-    public String SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
+    public SnsResponse SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
         List<String> errors = validate(smsVm.getMessage(), smsVm.getTo());
         if (errors.size() > 0)
         {

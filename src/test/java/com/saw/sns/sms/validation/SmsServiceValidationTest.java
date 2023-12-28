@@ -1,6 +1,7 @@
 package com.saw.sns.sms.validation;
 
 import com.saw.sns.SnsApplicationTests;
+import com.saw.sns.common.SnsResponse;
 import com.saw.sns.exception.OperationFailedException;
 import com.saw.sns.exception.ValidationErrorException;
 import com.saw.sns.sms.model.vm.SmsVm;
@@ -44,11 +45,13 @@ class SmsServiceValidationTest extends SnsApplicationTests {
 //                .id("76e51137-bd16-5c39-aef7-5f36dc074323")
 //                .build();
 
-        String expectedResult = "Message sent";
+        SnsResponse expectedResult = SnsResponse.builder()
+                .message("Message sent")
+                .build();
 
         when(smsServiceMock.SendMessage(any(SmsVm.class))).thenReturn(expectedResult);
 
-        String result = smsService.SendMessage(smsVm);
+        SnsResponse result = smsService.SendMessage(smsVm);
 
         assertEquals(expectedResult, result);
     }
