@@ -84,6 +84,5 @@ jobs:
             --capabilities CAPABILITY_NAMED_IAM 
             --resolve-s3
             --s3-prefix ${{vars.AWS_STACK_NAME}} 
-            --confirm-changeset
-            --no-interactive
+            --no-confirm-changeset
 
