@@ -82,7 +82,7 @@ jobs:
             --stack-name ${{vars.AWS_STACK_NAME}} 
             --region $AWS_REGION 
             --capabilities CAPABILITY_NAMED_IAM 
-            --resolve-s3=true 
+            --resolve-s3
             --s3-prefix ${{vars.AWS_STACK_NAME}} 
-            --confirm-changeset=true 
+            --confirm-changeset
 
