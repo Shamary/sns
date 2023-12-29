@@ -63,7 +63,7 @@ jobs:
 
     needs: build
 
-    # if: github.ref == 'refs/heads/master' # Only deploy for the master branch
+    if: github.ref == 'refs/heads/master' # Only deploy for the master branch
 
     steps:
       - name: Checkout code
@@ -77,7 +77,6 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy with SAM CLI
-        # run: sam deploy --stack-name $AWS_STACK_NAME --region $AWS_REGION --capabilities CAPABILITY_NAMED_IAM
         run: sam deploy 
             --stack-name ${{vars.AWS_STACK_NAME}} 
             --region $AWS_REGION 
