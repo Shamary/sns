@@ -60,4 +60,4 @@ Resources:
 Outputs:
   ApiURL:
     Description: URL for the API endpoint
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
