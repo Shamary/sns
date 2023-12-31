@@ -43,7 +43,7 @@ Resources:
   SmsApiFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: com.saw.sns.handler.SmsLambdaHandler::handleRequest
+      Handler: com.saw.sns.handler.LambdaHandler::handleRequest
       Runtime: java17
       CodeUri: .
       AutoPublishAlias: production
@@ -51,11 +51,14 @@ Resources:
         ApiGatewayEvent:
           Type: Api
           Properties:
-            Path: /api/sns/sms
+            Path: /api/sns/{proxy+}
             Method: POST
       SnapStart:
         ApplyOn: PublishedVersions
       Role: !GetAtt SnsApiFunctionRole.Arn
+      Environment:
+        Variables:
+          SNS_AWS_REGION: !Ref 'AWS::Region'
 
 Outputs:
   ApiURL:

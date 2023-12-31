@@ -2,6 +2,8 @@ package com.saw.sns.common;
 
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -10,6 +12,6 @@ import lombok.*;
 @Builder
 public class SnsResponse {
     String data;
-    String error;
+    List<String> errors;
     String message;
 }

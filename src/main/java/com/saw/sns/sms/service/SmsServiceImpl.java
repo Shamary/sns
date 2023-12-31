@@ -7,6 +7,7 @@ import com.saw.sns.sms.infc.SmsService;
 import com.saw.sns.sms.model.vm.SmsVm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sns.SnsClient;
@@ -15,10 +16,12 @@ import software.amazon.awssdk.services.sns.model.PublishResponse;
 
 @Service
 public class SmsServiceImpl implements SmsService {
+    @Value("${SNS_AWS_REGION}")
+    private String snsAwsRegion;
     Logger logger = LoggerFactory.getLogger(SmsServiceImpl.class);
     @Override
     public SnsResponse SendMessage(SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
-        SnsClient client = SnsClient.builder().region(Region.US_EAST_1).build();
+        SnsClient client = SnsClient.builder().region(Region.of(snsAwsRegion)).build();
         for (String number : smsVm.getTo()) {
             try
             {
