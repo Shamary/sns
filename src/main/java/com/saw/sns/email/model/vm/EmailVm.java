@@ -1,5 +1,6 @@
 package com.saw.sns.email.model.vm;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @AllArgsConstructor
@@ -16,4 +17,6 @@ public class EmailVm {
     private String subject;
     private String message;
     private String attachment;
+    @JsonProperty("filename")
+    private String fileName;
 }

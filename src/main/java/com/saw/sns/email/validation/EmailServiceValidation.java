@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -52,8 +53,25 @@ public class EmailServiceValidation implements EmailService {
             errors.add("message field cannot be blank or empty");
         }
 
+        validateEmailAddress(emailVm.getFrom(), "from", errors);
         validateEmailAddresses(emailVm.getCc(), "cc", errors);
         validateEmailAddresses(emailVm.getBc(), "bcc", errors);
+
+        if (!StringUtils.isEmpty(emailVm.getFileName())) {
+            if (StringUtils.isEmpty(emailVm.getAttachment())) {
+                errors.add("attachment field cannot be blank or empty");
+            }
+            else if (!validateBase64(emailVm.getAttachment())) {
+                errors.add("attachment field must be a valid base64 value");
+            }
+        }
+
+        if (!StringUtils.isEmpty(emailVm.getAttachment())) {
+            if (StringUtils.isEmpty(emailVm.getFileName())) {
+                errors.add("filename field cannot be blank or empty");
+            }
+        }
+
         return errors;
     }
     private static void validateEmailAddresses(String[] emails, String fieldName, List<String> errors) {
@@ -66,11 +84,28 @@ public class EmailServiceValidation implements EmailService {
         }
     }
 
+    private static void validateEmailAddress(String email, String fieldName, List<String> errors) {
+        if (!StringUtils.isEmpty(email)) {
+            if (!isValidEmailAddress(email)) {
+                errors.add("Invalid email address in " + fieldName + " field: " + email);
+            }
+        }
+    }
+
     private static boolean isNullOrBlank(String[] array) {
         return array == null || array.length == 0 || array[0] == null || array[0].trim().isEmpty();
     }
 
     private static boolean isValidEmailAddress(String emailAddress) {
         return EMAIL_PATTERN.matcher(emailAddress).matches();
+    }
+
+    public boolean validateBase64(String base64) {
+        try {
+            Base64.getDecoder().decode(base64);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }
