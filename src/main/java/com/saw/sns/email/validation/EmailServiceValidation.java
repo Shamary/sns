@@ -35,6 +35,11 @@ public class EmailServiceValidation implements EmailService {
     {
         List<String> errors = new ArrayList<>();
 
+        if (emailVm == null) {
+            errors.add("from, to and message fields are required");
+            return errors;
+        }
+
         if (isNullOrBlank(emailVm.getTo())) {
             errors.add("to field cannot be blank or empty");
         } else {

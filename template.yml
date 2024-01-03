@@ -40,7 +40,7 @@ Resources:
                   - logs:PutLogEvents
                 Resource: arn:aws:logs:*:*:*
 
-  SmsApiFunction:
+  SnsApiFunction:
     Type: AWS::Serverless::Function
     Properties:
       Handler: com.saw.sns.handler.LambdaHandler::handleRequest
