@@ -36,13 +36,15 @@ public class EmailServiceValidation implements EmailService {
         List<String> errors = new ArrayList<>();
 
         if (emailVm == null) {
-            errors.add("from, to and message fields are required");
+            errors.add("from, to/bcc and message fields are required");
             return errors;
         }
 
-        if (isNullOrBlank(emailVm.getTo())) {
+        if (isNullOrBlank(emailVm.getTo()) && isNullOrBlank(emailVm.getBcc())) {
             errors.add("to field cannot be blank or empty");
-        } else {
+        }
+
+        if(!isNullOrBlank(emailVm.getTo())) {
             for (String to : emailVm.getTo()) {
                 if (!isValidEmailAddress(to)) {
                     errors.add("Invalid email address in to field: " + to);
@@ -60,7 +62,7 @@ public class EmailServiceValidation implements EmailService {
 
         validateEmailAddress(emailVm.getFrom(), "from", errors);
         validateEmailAddresses(emailVm.getCc(), "cc", errors);
-        validateEmailAddresses(emailVm.getBc(), "bcc", errors);
+        validateEmailAddresses(emailVm.getBcc(), "bcc", errors);
 
         if (!StringUtils.isEmpty(emailVm.getFileName())) {
             if (StringUtils.isEmpty(emailVm.getAttachment())) {

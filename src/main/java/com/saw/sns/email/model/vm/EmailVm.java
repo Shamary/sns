@@ -13,7 +13,7 @@ public class EmailVm {
     private String from;
     private String[] to;
     private String[] cc;
-    private String[] bc;
+    private String[] bcc;
     private String subject;
     private String message;
     private String attachment;

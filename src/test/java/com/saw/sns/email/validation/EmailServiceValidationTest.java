@@ -53,6 +53,19 @@ class EmailServiceValidationTest extends SnsApplicationTests
     }
 
     @Test
+    public void testSendEmail_withInvalidBccField_shouldThrowValidationErrorException() {
+        EmailVm email = EmailVm.builder()
+                .bcc(new String[]{"test@"})
+                .from("no-reply@proto.me")
+                .message("Test message")
+                .build();
+
+        ValidationErrorException e = assertThrows(ValidationErrorException.class, () -> emailServiceValidation.sendEmail(email));
+
+        assertEquals(e.getErrors().get(0), "Invalid email address in bcc field: " + email.getBcc()[0]);
+    }
+
+    @Test
     public void testValidate_withMissingEmailBody_shouldAddError() {
         EmailVm email = EmailVm.builder()
                 .to(new String[]{"test@xyz.com"})
@@ -62,7 +75,7 @@ class EmailServiceValidationTest extends SnsApplicationTests
 
         ValidationErrorException e = assertThrows(ValidationErrorException.class, () -> emailServiceValidation.sendEmail(null));
 
-        assertEquals(e.getErrors().get(0), "from, to and message fields are required");
+        assertEquals(e.getErrors().get(0), "from, to/bcc and message fields are required");
     }
 
     @Test

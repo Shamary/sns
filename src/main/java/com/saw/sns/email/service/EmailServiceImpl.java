@@ -40,56 +40,6 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public SnsResponse sendEmail(EmailVm email) throws ValidationErrorException, OperationFailedException {
         return sendEmailWithAttachment(email);
-//        SesClient client = SesClient.builder()
-//                .region(Region.of(awsRegion))
-//                .build();
-//
-//        if (email.getCc()== null) {
-//            email.setCc(new String[]{});
-//        }
-//
-//        if (email.getBc() == null) {
-//            email.setBc(new String[]{});
-//        }
-//
-//        Destination destination = Destination.builder()
-//                .toAddresses(email.getTo())
-//                .ccAddresses(email.getCc())
-//                .bccAddresses(email.getBc())
-//                .build();
-//        Content message = Content.builder()
-//                .data(email.getMessage())
-//                .build();
-//
-//        Content subject = Content.builder()
-//                .data(email.getSubject())
-//                .build();
-//
-//        Body body = Body.builder()
-//                .html(message)
-//                .build();
-//
-//        Message emailMessage = Message.builder()
-//                .body(body)
-//                .subject(subject)
-//                .build();
-//
-//        SendEmailRequest sendEmailRequest = SendEmailRequest.builder()
-//                .source(email.getFrom())
-//                .destination(destination)
-//                .message(emailMessage)
-//                .build();
-//
-//        try {
-//            client.sendEmail(sendEmailRequest);
-//            return SnsResponse.builder()
-//                    .data("Email sent")
-//                    .build();
-//        } catch (SesException e) {
-//            logger.debug("=========EMAIL " + e.getMessage());
-//            e.printStackTrace();
-//            throw new OperationFailedException("Sending email failed");
-//        }
     }
 
     private SnsResponse sendEmailWithAttachment(EmailVm emailVm) {
@@ -103,18 +53,19 @@ public class EmailServiceImpl implements EmailService {
             message.setSubject(emailVm.getSubject());
             message.setFrom(emailVm.getFrom());
 
-            String to = Arrays.toString(emailVm.getTo());
+            if (emailVm.getTo() != null) {
+                String to = Arrays.toString(emailVm.getTo());
+                message.setRecipients(javax.mail.Message.RecipientType.TO, to.substring(1, to.length() -1));
+            }
 
-            message.setRecipients(javax.mail.Message.RecipientType.TO, to.substring(1, to.length() -1));
-
-            if (!StringUtils.isEmpty(emailVm.getCc())) {
+            if (emailVm.getCc()!= null) {
                 String cc = Arrays.toString(emailVm.getCc());
                 message.setRecipients(javax.mail.Message.RecipientType.CC, cc.substring(1, cc.length() -1));
             }
 
-            if (!StringUtils.isEmpty(emailVm.getBc())) {
-                String bc = Arrays.toString(emailVm.getBc());
-                message.setRecipients(javax.mail.Message.RecipientType.BCC, bc.substring(1, bc.length() -1));
+            if (emailVm.getBcc()!= null) {
+                String bcc = Arrays.toString(emailVm.getBcc());
+                message.setRecipients(javax.mail.Message.RecipientType.BCC, bcc.substring(1, bcc.length() -1));
             }
             
             MimeMultipart msg = new MimeMultipart("mixed");
