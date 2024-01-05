@@ -22,13 +22,6 @@ public class SmsController implements SmsService {
     @Override
     @PostMapping("/sms")
     public SnsResponse SendMessage(@RequestBody SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
-        try {
-            return smsService.SendMessage(smsVm);
-        } catch(ValidationErrorException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-        catch(OperationFailedException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
-        }
+       return smsService.SendMessage(smsVm);
     }
 }
