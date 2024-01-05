@@ -10,6 +10,11 @@ logging:
         sns:
           sms:
             web: DEBUG
+          email:
+            web: DEBUG
 
 server:
   port: 12013
+
+# aws:
+#   region: ${SNS_AWS_REGION}

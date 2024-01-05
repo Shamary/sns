@@ -8,7 +8,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.saw.sns.SnsApplication;
 
-public class SmsLambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxyResponse> {
+public class LambdaHandler implements RequestHandler<AwsProxyRequest, AwsProxyResponse> {
     private static SpringBootLambdaContainerHandler<AwsProxyRequest, AwsProxyResponse> handler;
 
     static {

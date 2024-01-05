@@ -1,11 +1,11 @@
-package com.saw.sns.sms.web;
+package com.saw.sns.email.web;
 
 import com.saw.sns.common.SnsResponse;
+import com.saw.sns.email.infc.EmailService;
+import com.saw.sns.email.model.vm.EmailVm;
+import com.saw.sns.email.validation.EmailServiceValidation;
 import com.saw.sns.exception.OperationFailedException;
 import com.saw.sns.exception.ValidationErrorException;
-import com.saw.sns.sms.infc.SmsService;
-import com.saw.sns.sms.model.vm.SmsVm;
-import com.saw.sns.sms.validation.SmsServiceValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/api/sns")
-public class SmsController implements SmsService {
+@RequestMapping("api/sns")
+public class EmailController implements EmailService {
     @Autowired
-    private SmsServiceValidation smsService;
+    private EmailServiceValidation emailService;
+
     @Override
-    @PostMapping("/sms")
-    public SnsResponse SendMessage(@RequestBody SmsVm smsVm) throws ValidationErrorException, OperationFailedException {
-       return smsService.SendMessage(smsVm);
+    @PostMapping("/email")
+    public SnsResponse sendEmail(@RequestBody EmailVm email) throws ValidationErrorException, OperationFailedException {
+        return emailService.sendEmail(email);
     }
 }

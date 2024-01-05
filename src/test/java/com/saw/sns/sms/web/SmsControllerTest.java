@@ -61,11 +61,11 @@ class SmsControllerTest extends SnsApplicationTests {
 
         when(smsService.SendMessage(smsVm)).thenThrow(new ValidationErrorException(errors));
 
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+        ValidationErrorException exception = assertThrows(ValidationErrorException.class, () -> {
             smsController.SendMessage(smsVm);
         });
 
-        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        assertEquals(errors.get(0), exception.getErrors().get(0));
         verify(smsService, times(1)).SendMessage(smsVm);
     }
 
@@ -77,11 +77,10 @@ class SmsControllerTest extends SnsApplicationTests {
 
         when(smsService.SendMessage(smsVm)).thenThrow(new OperationFailedException("Operation failed"));
 
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+        OperationFailedException exception = assertThrows(OperationFailedException.class, () -> {
             smsController.SendMessage(smsVm);
         });
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
         verify(smsService, times(1)).SendMessage(smsVm);
     }
 }
