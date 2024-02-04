@@ -79,7 +79,7 @@ jobs:
       - name: Deploy with SAM CLI
         run: sam deploy 
             --stack-name ${{vars.AWS_STACK_NAME}} 
-            --region $AWS_REGION 
+            --region ${{vars.AWS_REGION}}  
             --capabilities CAPABILITY_NAMED_IAM 
             --resolve-s3
             --s3-prefix ${{vars.AWS_STACK_NAME}} 

@@ -3,6 +3,13 @@
 #     baseline-version: 1
 #     baseline-on-migrate: true
 
+push:
+  app:
+    s3:
+      config:
+        bucket: ${AWS_S3_BUCKET_CONFIG}
+        file: ${AWS_FILE_CONFIG}
+
 logging:
   level:
     com:
