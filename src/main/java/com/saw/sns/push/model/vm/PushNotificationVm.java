@@ -11,7 +11,9 @@ import lombok.*;
 public class PushNotificationVm {
     private String message;
     private String topic;
+    private String title;
     private String token;
-    private String arn;
+    private String os;
+    private String priority;
     private NotificationAttributesVm[] attributes;
 }

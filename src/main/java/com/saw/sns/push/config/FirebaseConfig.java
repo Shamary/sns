@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import java.io.IOException;
 
 @Configuration
+@ConditionalOnProperty(name = "push.app.s3.config.bucket")
 public class FirebaseConfig {
 
     @Value("${push.app.s3.config.bucket}")
@@ -23,7 +24,6 @@ public class FirebaseConfig {
     private String file;
 
     @Bean
-    @ConditionalOnProperty(name = "push.app.s3.config.bucket", havingValue = "true")
     FirebaseApp firebaseApp() {
         try {
 

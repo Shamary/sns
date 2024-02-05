@@ -1,0 +1,10 @@
+SNS:
+  AWS:
+    REGION: us-east-1
+
+# push:
+#   app:
+#     s3:
+#       config:
+#         bucket:
+#         file:

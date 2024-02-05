@@ -1,3 +1,10 @@
+spring:
+  profiles:
+    active:
+    - dev
+    - staging
+    - prod
+    
 # spring:
 #   flyway:
 #     baseline-version: 1
@@ -16,9 +23,14 @@ logging:
       saw:
         sns:
           sms:
-            web: DEBUG
+            web: ERROR
+            service: ERROR
           email:
-            web: DEBUG
+            web: ERROR
+            service: ERROR
+          push:
+            web: ERROR
+            service: ERROR
 
 server:
   port: 12013

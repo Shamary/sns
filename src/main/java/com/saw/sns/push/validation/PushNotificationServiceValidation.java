@@ -41,12 +41,12 @@ public class PushNotificationServiceValidation implements PushNotificationServic
             errors.add("Only one of topic or token can be provided.");
         }
 
-        if (isBlank(vm.getArn())) {
-            errors.add("ARN must be provided.");
-        }
-
         // Check attributes
         if (vm.getAttributes() != null) {
+            if (isBlank(vm.getOs())) {
+                errors.add("Os must be provided to send data messages");
+            }
+
             for (NotificationAttributesVm attribute : vm.getAttributes()) {
                 if (isBlank(attribute.getKey()) || isBlank(attribute.getValue())) {
                     errors.add("Both key and value must be provided for each attribute.");
