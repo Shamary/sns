@@ -6,7 +6,7 @@ Web service to handle notification messages in varying forms (sms, email and pus
 
 - Java SpringBoot 3
 - Gradle 8.5
-- AWS SNS, SES, Lambda
+- AWS SNS, SES, Lambda, S3
 - Docker
 
 # Requirements

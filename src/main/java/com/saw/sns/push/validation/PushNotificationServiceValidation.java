@@ -1,5 +1,6 @@
 package com.saw.sns.push.validation;
 
+import com.saw.sns.common.Constants;
 import com.saw.sns.common.SnsResponse;
 import com.saw.sns.exception.OperationFailedException;
 import com.saw.sns.exception.ValidationErrorException;
@@ -9,6 +10,7 @@ import com.saw.sns.push.model.vm.PushNotificationVm;
 import com.saw.sns.push.service.PushNotificationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +43,22 @@ public class PushNotificationServiceValidation implements PushNotificationServic
             errors.add("Only one of topic or token can be provided.");
         }
 
+        if (StringUtils.hasText(vm.getPriority())) {
+            if (!vm.getPriority().equals(Constants.PRIORITY_HIGH) && !vm.getPriority().equals(Constants.PRIORITY_NORMAL)) {
+                errors.add("priority must be either HIGH or NORMAL");
+            }
+        }
+
         // Check attributes
         if (vm.getAttributes() != null) {
             if (isBlank(vm.getOs())) {
-                errors.add("Os must be provided to send data messages");
+                errors.add("os must be provided to send data messages");
+            }
+            else
+            {
+                if (!vm.getOs().equals(Constants.OS_ANDROID) && !vm.getOs().equals(Constants.OS_IOS)) {
+                    errors.add("os must be either android or ios");
+                }
             }
 
             for (NotificationAttributesVm attribute : vm.getAttributes()) {
@@ -58,7 +72,7 @@ public class PushNotificationServiceValidation implements PushNotificationServic
     }
     private boolean isBlank(String string)
     {
-        return string == null || string.trim().isEmpty();
+        return !StringUtils.hasText(string);
     }
 
     private boolean isNotBlank(String string)

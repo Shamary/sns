@@ -1,10 +1,9 @@
 spring:
-  profiles:
-    active:
-    - dev
-    - staging
-    - prod
-    
+  config:
+    activate:
+      on-profile:
+      - prod
+      - default
 # spring:
 #   flyway:
 #     baseline-version: 1

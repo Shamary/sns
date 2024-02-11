@@ -6,6 +6,9 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +26,8 @@ public class FirebaseConfig {
     @Value("${push.app.s3.config.file}")
     private String file;
 
+    Logger logger = LoggerFactory.getLogger(FirebaseConfig.class);
+
     @Bean
     FirebaseApp firebaseApp() {
         try {
@@ -34,9 +39,12 @@ public class FirebaseConfig {
                     .setCredentials(GoogleCredentials.fromStream(s3Object.getObjectContent()))
                     .build();
 
+            logger.info("========FirebaseApp initializing...");
             return FirebaseApp.initializeApp(options);
         } catch (IOException e) {
             e.printStackTrace();
+
+            logger.error("========FirebaseApp failed to initialize", e);
         }
 
         return null;
